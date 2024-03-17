@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "connect3"
+version = "0.1.0"
+description = ""
+authors = ["kiril <kirill.301522@gmail.com>"]
+readme = "README.md"
+package-mode = false
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.3"
+python-dotenv = "^1.0.1"
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+psycopg2-binary = "^2.9.9"
+gunicorn = "^21.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
