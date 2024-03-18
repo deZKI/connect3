@@ -4,7 +4,7 @@ FROM python:3.12-alpine
 # устанавливаем netcat
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/main" > /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/community" >> /etc/apk/repositories && \
-    apk add --no-cache netcat-openbsd
+    apk add --no-cache netcat-openbsd build-base libffi-dev
 
 
 # Установка рабочей директории в контейнере
