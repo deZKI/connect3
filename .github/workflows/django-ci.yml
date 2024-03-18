@@ -36,6 +36,7 @@ jobs:
 
     - name: Install dependencies
       run: poetry install
+      working-directory: ./backend
 
     - name: Run tests
       env:
@@ -46,3 +47,4 @@ jobs:
         POSTGRES_PORT: 5432
       run: |
         poetry run python manage.py test
+      working-directory: ./backend
