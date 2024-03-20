@@ -5,14 +5,13 @@ from django.contrib.auth.models import AbstractUser
 
 class UserExtended(AbstractUser):
     """ Пользователь (расширенная модель) """
-    telegram_id = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID')
-    is_confirmed = models.BooleanField(default=False, verbose_name='Telegram подтвержден')
+    username = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID')
     qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='Qrcode пользователя ')
     church = models.CharField(max_length=256, verbose_name='Название церкви', blank=True, null=True)
-    know_from = models.CharField(max_length=256, verbose_name='Откуда узнал')
+    know_from = models.CharField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
     balance = models.PositiveIntegerField(default=1500, verbose_name='Баланс пользователя')
 
-    USERNAME_FIELD = 'telegram_id'
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = "Пользователь"

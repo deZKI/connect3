@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'admin_reorder',  # Переопределение списка админки
+
     'rest_framework',
     'drf_yasg',
 
@@ -34,9 +36,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+ADMIN_REORDER = (
+    'sites',
+
+    {'app': 'users', 'label': 'Пользователи',
+     'models': (
+         {'model': 'users.UserExtended', 'label': 'Пользователи'},
+     ),
+     }
+)
 
 TEMPLATES = [
     {
