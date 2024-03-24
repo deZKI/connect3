@@ -9,7 +9,6 @@ from drf_yasg import openapi
 from rest_framework import routers
 from rest_framework import permissions
 
-from users.api.views import UsersViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -21,7 +20,6 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 router = routers.DefaultRouter()
-router.register('users', UsersViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
 
@@ -30,6 +28,9 @@ urlpatterns = [
     path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     path('admin/', admin.site.urls),
+
+    path('api/users/', include('users.urls')),
+
 ]
 
 if settings.DEBUG:

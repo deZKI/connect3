@@ -5,9 +5,17 @@ from django.utils.translation import gettext_lazy as _
 from users.models import UserExtended
 
 
+@admin.action(description="Создать qrcode")
+def generate_qrcode(model_admin, request, queryset: list[UserExtended]):
+    for user in queryset:
+        user.generate_qrcode()
+
+
 @admin.register(UserExtended)
 class UserExtendedAdmin(UserAdmin):
     """ Админка пользователя """
+    actions = (generate_qrcode, )
+
     list_display = ('username', 'balance', 'is_active',)
 
     fieldsets = (
