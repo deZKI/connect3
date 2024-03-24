@@ -10,9 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 SITE_URL = os.getenv('SITE_URL')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ['http://95.163.229.52', 'https://connect3.ru', 'http://95.163.229.52:443', 'http://95.163.229.52:80'
+                        'https://95.163.229.52', 'https://95.163.229.52:443']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

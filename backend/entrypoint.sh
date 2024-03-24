@@ -15,7 +15,7 @@ python manage.py migrate --noinput
 python manage.py collectstatic --noinput --clear
 
 # Запуск Gunicorn или любого другого WSGI сервера, который вы используете
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers=7
 # Start server
 echo "Starting server"
 # run the container CMD
