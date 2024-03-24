@@ -45,6 +45,7 @@ jobs:
         POSTGRES_PASSWORD: postgres
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
+        SECRET_KEY: SECRET_KEY
       run: |
         poetry run python manage.py test
       working-directory: ./backend
