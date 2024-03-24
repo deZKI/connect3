@@ -1,4 +1,5 @@
 import os
+import sys
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -7,6 +8,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
+SITE_URL = os.getenv('SITE_URL')
 
 DEBUG = True
 
@@ -79,6 +81,10 @@ DATABASES = {
         "PASSWORD": os.getenv('POSTGRES_PASSWORD'),
         "HOST": os.getenv('POSTGRES_HOST'),
         "PORT": os.getenv('POSTGRES_PORT'),
+        "TEST": {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
     }
 }
 
