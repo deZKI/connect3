@@ -10,10 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 SITE_URL = os.getenv('SITE_URL')
 
-DEBUG = False
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['http://95.163.229.52', 'https://connect3.ru', 'http://95.163.229.52:443', 'http://95.163.229.52:80'
+CSRF_TRUSTED_ORIGINS = ['http://95.163.229.52', 'https://connect3.ru', 'http://95.163.229.52:443',
+                        'http://95.163.229.52:80'
                         'https://95.163.229.52', 'https://95.163.229.52:443']
 
 INSTALLED_APPS = [
@@ -29,7 +30,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
 
-    'users'
+    'users',
+    'posts'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +54,11 @@ ADMIN_REORDER = (
     {'app': 'users', 'label': 'Пользователи',
      'models': (
          {'model': 'users.UserExtended', 'label': 'Пользователи'},
+     ),
+     },
+    {'app': 'posts', 'label': 'Посты/рассылка',
+     'models': (
+         {'model': 'posts.Posts', 'label': 'Посты'},
      ),
      }
 )
@@ -122,3 +129,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.UserExtended"
+
+RABBITMQ = {
+    "PROTOCOL": "amqp",  # in prod change with "amqps"
+    "HOST": os.getenv("RABBITMQ_HOST", "localhost"),
+    "PORT": os.getenv("RABBITMQ_PORT", 5672),
+    "USER": os.getenv("RABBITMQ_USER", "guest"),
+    "PASSWORD": os.getenv("RABBITMQ_PASSWORD", "guest"),
+}
+
+CELERY_BROKER_URL = f"{RABBITMQ['PROTOCOL']}://{RABBITMQ['USER']}:{RABBITMQ['PASSWORD']}@{RABBITMQ['HOST']}:{RABBITMQ['PORT']}"
