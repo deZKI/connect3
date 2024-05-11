@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from products.admin import OrderInlineAdmin
 from users.models import UserExtended
 
 
@@ -14,10 +15,10 @@ def generate_qrcode(model_admin, request, queryset: list[UserExtended]):
 @admin.register(UserExtended)
 class UserExtendedAdmin(UserAdmin):
     """ Админка пользователя """
-    actions = (generate_qrcode, )
+    actions = (generate_qrcode,)
 
     list_display = ('username', 'balance', 'is_active',)
-
+    inlines = [OrderInlineAdmin]
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {

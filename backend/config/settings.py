@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'users',
-    'posts'
+    'posts',
+    'products'
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,11 @@ ADMIN_REORDER = (
     {'app': 'posts', 'label': 'Посты/рассылка',
      'models': (
          {'model': 'posts.Posts', 'label': 'Посты'},
+     ),
+     },
+    {'app': 'products', 'label': 'Продукты',
+     'models': (
+         {'model': 'products.Product', 'label': 'Продукты'},
      ),
      }
 )
