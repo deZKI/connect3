@@ -14,9 +14,7 @@ WORKDIR /app
 COPY . /app
 
 # Установка poetry и зависимостей проекта
-RUN pip install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi
+RUN pip install -r requirements.txt
 
 # Делаем entrypoint скрипт исполняемым
 RUN chmod +x entrypoint.sh

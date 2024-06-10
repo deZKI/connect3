@@ -13,6 +13,7 @@ class UserExtended(AbstractUser):
     qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='Qrcode пользователя ', blank=True, null=True)
     church = models.CharField(max_length=256, verbose_name='Название церкви', blank=True, null=True)
     know_from = models.CharField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
+    is_payed = models.BooleanField(verbose_name='Оплачен', default=False)
     balance = models.PositiveIntegerField(default=1500, verbose_name='Баланс пользователя')
 
     REQUIRED_FIELDS = []
