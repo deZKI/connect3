@@ -23,15 +23,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'admin_reorder',  # Переопределение списка админки
-
     'rest_framework',
     'drf_yasg',
 
-    'users',
-    'posts',
-    'products',
-    'telegram_bot'
+    'apps.users',
+    'apps.posts',
+    'apps.products',
+    'apps.tgbot'
 ]
 
 MIDDLEWARE = [
@@ -42,32 +40,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 ROOT_URLCONF = 'config.urls'
-
-ADMIN_REORDER = (
-    'sites',
-
-    {'app': 'users', 'label': 'Пользователи',
-     'models': (
-         {'model': 'users.UserExtended', 'label': 'Пользователи'},
-     ),
-     },
-    {'app': 'posts', 'label': 'Посты/рассылка',
-     'models': (
-         {'model': 'posts.Posts', 'label': 'Посты'},
-     ),
-     },
-    {'app': 'products', 'label': 'Маркет',
-     'models': (
-         {'model': 'products.Product', 'label': 'Продукты'},
-         {'model': 'products.Order', 'label': 'Заказы'},
-     ),
-     }
-)
 
 TEMPLATES = [
     {
