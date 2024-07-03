@@ -13,7 +13,7 @@ menu_router = Router()
 async def send_welcome(message: types.Message):
     config = await sync_to_async(Siteconfig.objects.first)()
     text = config.welcome_text if config else "Welcome!"
-    await message.answer(text, reply_markup=await main_keyboard(message))
+    await message.answer(text, reply_markup=await main_keyboard(message=message))
 
 
 @menu_router.message(F.text == TEXT_PRODUCT_ORDER)
@@ -24,4 +24,4 @@ async def send_product_menu(message: types.Message):
 @menu_router.message(F.text == TEXT_WHAT_IS_CONNECT)
 async def send_what_is_connect(message: types.Message):
     config = await sync_to_async(Siteconfig.objects.first)()
-    await message.answer(config.what_is_connect, reply_markup=await main_keyboard(message))
+    await message.answer(config.what_is_connect, reply_markup=await main_keyboard(message=message))

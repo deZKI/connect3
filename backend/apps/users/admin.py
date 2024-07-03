@@ -28,7 +28,7 @@ class UserExtendedAdmin(UserAdmin):
          ),
         (_("Permissions"), {
             "fields": (
-                'is_banned', 'is_registered',
+                'is_banned', 'is_registered', 'is_payed',
                 "is_active", "is_superuser",
             )},
          ),

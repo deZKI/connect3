@@ -5,3 +5,6 @@ class BotConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.tgbot'
     verbose_name = 'Настройки'
+
+    def ready(self):
+        import apps.tgbot.signals  # noqa

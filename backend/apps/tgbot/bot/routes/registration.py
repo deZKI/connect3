@@ -1,17 +1,17 @@
 from aiogram import types, Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardRemove
-from asgiref.sync import sync_to_async
 
 from apps.users.models import UserExtended
 from ..consts import TEXT_REGISTER
 from ..forms import RegistrationForm
 from ..keyboards import share_phone_number_keyboard, main_keyboard, know_from_keyboard
-
+from ..decorators import user_is_not_registered
 registration_router = Router()
 
 
 @registration_router.message(F.text == TEXT_REGISTER)
+@user_is_not_registered
 async def register(message: types.Message, state: FSMContext):
     await message.answer("Пожалуйста, укажите ваше имя:", reply_markup=ReplyKeyboardRemove())
     await state.set_state(RegistrationForm.waiting_for_first_name)
@@ -59,15 +59,15 @@ async def process_know_from(message: types.Message, state: FSMContext):
     know_from = message.text
     user_data = await state.get_data()
 
-    user = await sync_to_async(UserExtended.objects.get)(tg_chat_id=message.from_user.id)
+    user = await UserExtended.objects.aget(tg_chat_id=message.from_user.id)
     user.first_name = user_data['first_name']
     user.last_name = user_data['last_name']
     user.phone_number = user_data['phone_number']
     user.church = user_data['church']
     user.know_from = know_from
     user.is_registered = True
-    await sync_to_async(user.save)()
+    await user.asave()
 
-    await message.answer("Вы успешно зарегистрированы на мероприятие!", reply_markup=main_keyboard)
+    await message.answer("Вы успешно зарегистрированы на мероприятие!", reply_markup=await main_keyboard(message))
 
     await state.clear()

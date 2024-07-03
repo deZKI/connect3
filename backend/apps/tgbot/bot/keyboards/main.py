@@ -8,19 +8,24 @@ from apps.tgbot.bot.consts import TEXT_PRODUCT_ORDER, TEXT_WHAT_IS_CONNECT, TEXT
 from apps.users.models import UserExtended
 
 
-async def main_keyboard(message: Message) -> ReplyKeyboardMarkup:
+async def main_keyboard(message: Message = None, user: UserExtended = None) -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardBuilder()
     keyboard.add(
         KeyboardButton(text=TEXT_WHAT_IS_CONNECT)
     )
-    keyboard.add(
-        KeyboardButton(text=TEXT_PRODUCT_ORDER)
-    )
-    user = await sync_to_async(
-        UserExtended.objects.filter(Q(tg_chat_id=message.from_user.id) | Q(username=message.from_user.id)).first)()
+    user = await UserExtended.objects.filter(
+        Q(tg_chat_id=message.from_user.id) | Q(username=message.from_user.id)).afirst() if user is None else user
 
+    # Если пользователь не зареган
     if not user.is_registered:
         keyboard.add(KeyboardButton(text=TEXT_REGISTER))
+
+    # Если пользователь оплатил => он может заказывать
+    if user.is_payed:
+        keyboard.add(
+            KeyboardButton(text=TEXT_PRODUCT_ORDER)
+        )
+
     return keyboard.adjust(1).as_markup(input_field_placeholder=TEXT_MENU, resize_keyboard=True)
 
 
