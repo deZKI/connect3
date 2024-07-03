@@ -6,7 +6,7 @@ from asgiref.sync import sync_to_async
 from apps.users.models import UserExtended
 from ..consts import TEXT_REGISTER
 from ..forms import RegistrationForm
-from ..keyboards import share_phone_number_keyboard, main_keyboard
+from ..keyboards import share_phone_number_keyboard, main_keyboard, know_from_keyboard
 
 registration_router = Router()
 
@@ -33,10 +33,11 @@ async def process_last_name(message: types.Message, state: FSMContext):
     await state.set_state(RegistrationForm.waiting_for_phone_number)
 
 
-@registration_router.message(RegistrationForm.waiting_for_phone_number, F.contact)
+@registration_router.message(RegistrationForm.waiting_for_phone_number)
 async def process_phone_number(message: types.Message, state: FSMContext):
-    if not message.contact:
-        await message.answer("Пожалуйста, используйте кнопку для отправки вашего контакта.")
+    if not message.contact or not message.contact.phone_number:
+        await message.answer(
+            "Пожалуйста, используйте кнопку для отправки вашего контакта и убедитесь, что номер телефона доступен.")
         return
 
     phone_number = message.contact.phone_number
@@ -49,7 +50,7 @@ async def process_phone_number(message: types.Message, state: FSMContext):
 async def process_church(message: types.Message, state: FSMContext):
     church = message.text
     await state.update_data(church=church)
-    await message.answer("Откуда вы узнали о нашем мероприятии?")
+    await message.answer("Откуда вы узнали о нашем мероприятии?", reply_markup=know_from_keyboard)
     await state.set_state(RegistrationForm.waiting_for_know_from)
 
 
