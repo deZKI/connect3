@@ -13,15 +13,6 @@ from apps.tgbot.bot.consts import TEXT_BANNED
 from apps.users.models import UserExtended
 
 
-async def send_ban_message(event: types.Message | types.CallbackQuery) -> None:
-    from apps.tgbot.bot.main import bot
-    if isinstance(event, types.CallbackQuery):
-        await bot.edit_message_text(chat_id=event.message.chat.id, message_id=event.message.message_id,
-                                    text=TEXT_BANNED)
-    else:
-        await bot.send_message(event.chat.id, TEXT_BANNED)
-
-
 class AuthMiddleware(BaseMiddleware):
     async def __call__(self,
                        handler: Callable[[types.TelegramObject, dict[str, Any]], Awaitable[Any]],
@@ -46,10 +37,20 @@ class AuthMiddleware(BaseMiddleware):
             user.last_name = tg_user.last_name if tg_user.last_name else 'Неизвестно'
             await sync_to_async(user.save)(update_fields=['tg_chat_id', 'username', 'first_name', 'last_name'])
 
+        data['user'] = user  # Сохраняем пользователя в data
+
         if not user.is_banned:
             return await handler(event, data)
         if event.message:
-            await send_ban_message(event.message)
+            await self.__send_ban_message(event.message)
         elif event.callback_query:
-            await send_ban_message(event.callback_query)
+            await self.__send_ban_message(event.callback_query)
         raise CancelHandler()
+
+    async def __send_ban_message(event: types.Message | types.CallbackQuery) -> None:
+        from apps.tgbot.bot.main import bot
+        if isinstance(event, types.CallbackQuery):
+            await bot.edit_message_text(chat_id=event.message.chat.id, message_id=event.message.message_id,
+                                        text=TEXT_BANNED)
+        else:
+            await bot.send_message(event.chat.id, TEXT_BANNED)

@@ -10,11 +10,13 @@ from django.conf import settings
 class UserExtended(AbstractUser):
     """ Пользователь (расширенная модель) """
     tg_chat_id = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID')
+    phone_number = models.CharField(max_length=50, unique=True, verbose_name='Telegram Phone Number')
     username = models.CharField(max_length=50, unique=True, verbose_name='Telegram Username')
     qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='Qrcode пользователя ', blank=True, null=True)
     church = models.CharField(max_length=256, verbose_name='Название церкви', blank=True, null=True)
     know_from = models.CharField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
     is_payed = models.BooleanField(verbose_name='Оплачен', default=False)
+    is_registered = models.BooleanField(verbose_name='Зарегистрирован', default=False)
     balance = models.PositiveIntegerField(default=1500, verbose_name='Баланс пользователя')
 
     is_banned = models.BooleanField(verbose_name='забанен', default=False)
