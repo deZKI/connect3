@@ -16,9 +16,9 @@ async def send_welcome(message: types.Message):
     await message.answer(text, reply_markup=await main_keyboard(message=message))
 
 
-@menu_router.message(F.text == TEXT_PRODUCT_ORDER)
-async def send_product_menu(message: types.Message):
-    await message.answer('Ты можешь заказать?', reply_markup=await products_keyboard_reply())
+@menu_router.message(Command("menu"))
+async def send_welcome(message: types.Message):
+    await message.answer('Меню', reply_markup=await main_keyboard(message=message))
 
 
 @menu_router.message(F.text == TEXT_WHAT_IS_CONNECT)

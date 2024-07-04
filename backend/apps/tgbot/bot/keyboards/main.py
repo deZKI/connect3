@@ -32,9 +32,9 @@ async def main_keyboard(message: Message = None, user: UserExtended = None) -> R
 async def products_keyboard_reply():
     keyboard = ReplyKeyboardBuilder()
 
-    products = await sync_to_async(list)(Product.objects.all())
+    products = await sync_to_async(list)(Product.objects.filter(available=True))
 
     for product in products:
-        keyboard.add(KeyboardButton(text=product.name))
+        keyboard.add(KeyboardButton(text=f"{product.name} - {product.price}"))
 
     return keyboard.adjust(2).as_markup(resize_keyboard=True)
