@@ -55,7 +55,7 @@ async def confirm_purchase(message: types.Message, state: FSMContext):
 
             # Уменьшение баланса пользователя
             user.balance -= product.price
-            user.asave(update_fields=['balance'])
+            await user.asave(update_fields=['balance'])
 
             # Создание заказа
             await Order(product=product, user=user).asave()
