@@ -1,8 +1,10 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
+from apps.tgbot.bot.consts import TEXT_SHARE_CONTACT
+
 share_phone_number_keyboard = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text="Поделиться контактом", request_contact=True)]
+        [KeyboardButton(text=TEXT_SHARE_CONTACT, request_contact=True)]
     ],
     resize_keyboard=True,
     one_time_keyboard=True

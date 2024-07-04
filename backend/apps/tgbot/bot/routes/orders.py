@@ -5,7 +5,7 @@ from aiogram.fsm.state import State, StatesGroup
 
 from apps.products.models import Product, Order
 from apps.users.models import UserExtended
-from ..consts import TEXT_PRODUCT_ORDER
+from ..consts import *
 from ..keyboards import products_keyboard_reply, confirm_purchase_keyboard, main_keyboard
 
 order_router = Router()
@@ -18,7 +18,7 @@ class Purchase(StatesGroup):
 
 @order_router.message(F.text == TEXT_PRODUCT_ORDER)
 async def show_products(message: types.Message, state: FSMContext):
-    await message.answer("Выберите товар:", reply_markup=await products_keyboard_reply())
+    await message.answer(TEXT_PRODUCT_CHOOSE, reply_markup=await products_keyboard_reply())
     await state.set_state(Purchase.selecting_product)
 
 
@@ -29,17 +29,17 @@ async def select_product(message: types.Message, state: FSMContext):
         product = await Product.objects.aget(name=product_name)
         await state.update_data(product_id=product.id)
         await message.answer(
-            f"Вы хотите купить {product.name} за {product.price} руб.? Подтвердите покупку:",
+            TEXT_PRODUCT_BUY_AGREE.format(product_name, product),
             reply_markup=confirm_purchase_keyboard()
         )
         await state.set_state(Purchase.confirming_purchase)
     except Product.DoesNotExist:
-        await message.answer("Извините, такой товар не найден. Пожалуйста, выберите другой товар.")
+        await message.answer(TEXT_ORDER_SORRY)
 
 
 @order_router.message(Purchase.confirming_purchase, Text)
 async def confirm_purchase(message: types.Message, state: FSMContext):
-    if message.text == "Подтвердить покупку":
+    if message.text == TEXT_AGREE:
         user_data = await state.get_data()
         product_id = user_data.get("product_id")
         try:
@@ -48,7 +48,7 @@ async def confirm_purchase(message: types.Message, state: FSMContext):
 
             # Проверка на достаточность средств на балансе
             if user.balance < product.price:
-                await message.answer("Недостаточно средств на балансе для совершения покупки.",
+                await message.answer(TEXT_NO_MONEY,
                                      reply_markup=await main_keyboard(user=user))
                 await state.clear()
                 return
@@ -60,13 +60,13 @@ async def confirm_purchase(message: types.Message, state: FSMContext):
             # Создание заказа
             await Order(product=product, user=user).asave()
             await message.answer(
-                f"Вы успешно купили {product.name} за {product.price}! Ваш текущий баланс: {user.balance}.",
+                TEXT_PRODUCT_BUY_SUCCESS.format(product.name, product.price, user.balance),
                 reply_markup=await main_keyboard(user=user))
             await state.clear()
         except Product.DoesNotExist:
-            await message.answer("Извините, товар не найден.")
-    elif message.text == "Отменить":
-        await message.answer("Покупка отменена.", reply_markup=await main_keyboard(message=message))
+            await message.answer(TEXT_PRODUCT_NOT_FOUND)
+    elif message.text == TEXT_DISAGREE:
+        await message.answer(TEXT_PRODUCT_ORDER_CANCEL, reply_markup=await main_keyboard(message=message))
         await state.clear()
     else:
-        await message.answer("Пожалуйста, выберите 'Подтвердить покупку' или 'Отменить'.")
+        await message.answer(TEXT_PRODUCT_ORDER_INCORRECT)

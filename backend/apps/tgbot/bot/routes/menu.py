@@ -2,8 +2,8 @@ from aiogram import types, Router, F
 from aiogram.filters import Command
 from asgiref.sync import sync_to_async
 
-from ..consts import TEXT_PRODUCT_ORDER, TEXT_WHAT_IS_CONNECT
-from ..keyboards import products_keyboard_reply, main_keyboard
+from ..consts import TEXT_WHAT_IS_CONNECT, TEXT_MENU
+from ..keyboards import main_keyboard
 from ...models import Siteconfig
 
 menu_router = Router()
@@ -18,7 +18,7 @@ async def send_welcome(message: types.Message):
 
 @menu_router.message(Command("menu"))
 async def send_welcome(message: types.Message):
-    await message.answer('Меню', reply_markup=await main_keyboard(message=message))
+    await message.answer(TEXT_MENU, reply_markup=await main_keyboard(message=message))
 
 
 @menu_router.message(F.text == TEXT_WHAT_IS_CONNECT)
