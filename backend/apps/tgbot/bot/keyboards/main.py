@@ -1,9 +1,7 @@
-from asgiref.sync import sync_to_async
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, Message
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from django.db.models import Q
 
-from apps.products.models import Product
 from apps.tgbot.bot.consts import *
 from apps.users.models import UserExtended
 
@@ -33,14 +31,3 @@ async def main_keyboard(message: Message = None, user: UserExtended = None) -> R
         )
 
     return keyboard.adjust(1).as_markup(input_field_placeholder=TEXT_MENU, resize_keyboard=True)
-
-
-async def products_keyboard_reply():
-    keyboard = ReplyKeyboardBuilder()
-
-    products = await sync_to_async(list)(Product.objects.filter(available=True))
-
-    for product in products:
-        keyboard.add(KeyboardButton(text=f"{product.name} - {product.price}"))
-
-    return keyboard.adjust(2).as_markup(resize_keyboard=True)

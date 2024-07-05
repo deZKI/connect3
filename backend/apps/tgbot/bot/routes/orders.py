@@ -30,6 +30,11 @@ async def show_products(message: types.Message, state: FSMContext):
 
 @order_router.message(Purchase.selecting_product)
 async def select_product(message: types.Message, state: FSMContext):
+    if message.text == TEXT_BACK:
+        await state.clear()  # Завершаем текущее состояние FSM
+        await message.answer("Вы вернулись в главное меню.", reply_markup=await main_keyboard(message=message))
+        return
+
     product_name = message.text.split(" - ")[0]
     try:
         product = await Product.objects.aget(name=product_name)
