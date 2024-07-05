@@ -5,6 +5,7 @@ from aiogram.fsm.state import State, StatesGroup
 from apps.products.models import Product, Order
 from apps.users.models import UserExtended
 from ..consts import *
+from ..decorators import user_is_payed
 from ..keyboards import products_keyboard_reply, confirm_purchase_keyboard, main_keyboard
 
 order_router = Router()
@@ -13,6 +14,12 @@ order_router = Router()
 class Purchase(StatesGroup):
     selecting_product = State()
     confirming_purchase = State()
+
+
+@order_router.message(F.text == TEXT_MY_ORDERS)
+@user_is_payed
+async def send_my_orders(message: types.Message):
+    await message.answer('Ваши заказы', reply_markup=await main_keyboard(message=message))
 
 
 @order_router.message(F.text == TEXT_PRODUCT_ORDER)

@@ -28,6 +28,9 @@ async def main_keyboard(message: Message = None, user: UserExtended = None) -> R
         keyboard.add(
             KeyboardButton(text=TEXT_PRODUCT_ORDER)
         )
+        keyboard.add(
+            KeyboardButton(text=TEXT_MY_ORDERS)
+        )
 
     return keyboard.adjust(1).as_markup(input_field_placeholder=TEXT_MENU, resize_keyboard=True)
 

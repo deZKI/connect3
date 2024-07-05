@@ -11,6 +11,7 @@ TEXT_PRODUCT_ORDER_CANCEL = 'Покупка отменена.'
 TEXT_NO_MONEY = "Недостаточно средств на балансе для совершения покупки."
 TEXT_ORDER_SORRY = 'Извините, такой товар не найден. Пожалуйста, выберите другой товар.'
 TEXT_WHAT_IS_CONNECT = 'Что такое connect3?'
+TEXT_MY_ORDERS = 'Мои заказы'
 TEXT_REGISTER = 'Зарегистрироваться'
 TEXT_MENU = 'Меню'
 TEXT_SHARE_CONTACT = 'Поделиться контактом'
