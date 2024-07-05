@@ -1,5 +1,4 @@
 from aiogram import types, Router, F
-from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
@@ -22,7 +21,7 @@ async def show_products(message: types.Message, state: FSMContext):
     await state.set_state(Purchase.selecting_product)
 
 
-@order_router.message(Purchase.selecting_product, Text)
+@order_router.message(Purchase.selecting_product)
 async def select_product(message: types.Message, state: FSMContext):
     product_name = message.text.split(" - ")[0]
     try:
@@ -37,7 +36,7 @@ async def select_product(message: types.Message, state: FSMContext):
         await message.answer(TEXT_ORDER_SORRY)
 
 
-@order_router.message(Purchase.confirming_purchase, Text)
+@order_router.message(Purchase.confirming_purchase)
 async def confirm_purchase(message: types.Message, state: FSMContext):
     if message.text == TEXT_AGREE:
         user_data = await state.get_data()

@@ -4,7 +4,7 @@ from apps.users.models import UserExtended
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=128, verbose_name='Название')
+    name = models.CharField(max_length=128, verbose_name='Название', unique=True)
     price = models.IntegerField(verbose_name='Цена')
     available = models.BooleanField(default=True)
 

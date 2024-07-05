@@ -4,6 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from apps.posts.models import Posts
 
+
 async def posts_inline_keyboard():
     keyboard = InlineKeyboardBuilder()
 
@@ -15,5 +16,4 @@ async def posts_inline_keyboard():
         keyboard.add(InlineKeyboardButton(text=post.title, callback_data=f"post_{post.id}"))
 
     # Возвращаем клавиатуру
-    return keyboard.as_markup()
-
+    return keyboard.adjust(2).as_markup(resize_keyboard=True)
