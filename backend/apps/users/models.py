@@ -9,7 +9,7 @@ from django.conf import settings
 
 class UserExtended(AbstractUser):
     """ Пользователь (расширенная модель) """
-    tg_chat_id = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID')
+    tg_chat_id = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID', blank=True, null=True)
     phone_number = models.CharField(max_length=50, unique=True, verbose_name='Telegram Phone Number')
     username = models.CharField(max_length=50, unique=True, verbose_name='Telegram Username')
     qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='Qrcode пользователя ', blank=True, null=True)
