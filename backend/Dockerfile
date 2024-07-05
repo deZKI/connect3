@@ -1,5 +1,5 @@
 # Базовый образ
-FROM python:3.12-alpine
+FROM python:3.11.9-alpine3.19
 
 # устанавливаем netcat
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/main" > /etc/apk/repositories && \

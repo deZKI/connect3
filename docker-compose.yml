@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  web:
+  backend:
     build: backend
     volumes:
       - static_volume:/app/static/
@@ -26,12 +26,12 @@ services:
     build: ./nginx
     restart: always
     ports:
-      - "443:443"
+      - "80:80"
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
     depends_on:
-      - web
+      - backend
 
 volumes:
   postgres_data:
