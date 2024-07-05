@@ -7,6 +7,7 @@ class Posts(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    is_ready = models.BooleanField(default=False, verbose_name='Готово')
 
     class Meta:
         verbose_name = "Пост"

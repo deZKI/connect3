@@ -14,3 +14,5 @@ TEXT_WHAT_IS_CONNECT = 'Что такое connect3?'
 TEXT_REGISTER = 'Зарегистрироваться'
 TEXT_MENU = 'Меню'
 TEXT_SHARE_CONTACT = 'Поделиться контактом'
+
+TEXT_POST = 'Посты'

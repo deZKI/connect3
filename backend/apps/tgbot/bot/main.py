@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from .routes import menu_router, registration_router, order_router
+from .routes import menu_router, registration_router, order_router, posts_router
 from .middlewares import AuthMiddleware
 
 TOKEN = settings.TELEGRAM_BOT_API_TOKEN
@@ -16,7 +16,7 @@ dp.message.outer_middleware(AuthMiddleware())
 dp.include_router(menu_router)
 dp.include_router(registration_router)
 dp.include_router(order_router)
-
+dp.include_router(posts_router)
 
 async def set_commands(bot: Bot):
     commands = [
