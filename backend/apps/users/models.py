@@ -22,6 +22,11 @@ class UserExtended(AbstractUser):
     is_banned = models.BooleanField(verbose_name='забанен', default=False)
     REQUIRED_FIELDS = []
 
+    def save(self, *args, **kwargs):
+        if self.is_payed and not self.is_registered:
+            raise ValueError("Пользователь не может быть оплачен, если он не зарегистрирован")
+        super().save(*args, **kwargs)
+
     def generate_qrcode(self):
         qr = qrcode.QRCode(
             version=1,
