@@ -23,6 +23,7 @@ async def send_my_orders(message: types.Message):
 
 
 @order_router.message(F.text == TEXT_PRODUCT_ORDER)
+@user_is_payed
 async def show_products(message: types.Message, state: FSMContext):
     await message.answer(TEXT_PRODUCT_CHOOSE, reply_markup=await products_keyboard_reply())
     await state.set_state(Purchase.selecting_product)
