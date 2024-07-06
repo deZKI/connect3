@@ -11,6 +11,9 @@ echo "PostgreSQL started"
 # Выполнение миграций
 python manage.py migrate --noinput
 
+# Запуск start_bott
+python manage.py start_bot &
+
 # Сбор статических файлов
 python manage.py collectstatic --noinput --clear
 
