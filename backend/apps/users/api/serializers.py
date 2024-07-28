@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.users.models import UserExtended
+from apps.users.models import UserExtended, Participant
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -20,6 +20,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 class UserDetailsSerializer(serializers.ModelSerializer):
     """ Serializer for user details """
+
     class Meta:
         model = UserExtended
         fields = ['tg_chat_id', 'qrcode', 'first_name', 'last_name', 'church', 'know_from']
@@ -30,3 +31,9 @@ class UserDetailWithBalanceSerializer(UserDetailsSerializer):
 
     class Meta(UserDetailsSerializer.Meta):
         fields = UserDetailsSerializer.Meta.fields + ['balance']
+
+
+class ParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
+        fields = ('pk', 'name', 'surname', 'inspiration', 'photo')

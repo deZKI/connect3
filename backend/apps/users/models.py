@@ -49,3 +49,10 @@ class UserExtended(AbstractUser):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
         ordering = ["-id", ]
+
+
+class Participant(models.Model):
+    name = models.CharField(max_length=124)
+    surname = models.CharField(max_length=124)
+    inspiration = models.CharField(max_length=124)
+    photo = models.ImageField(upload_to='participant/', verbose_name='Фото участника', blank=True, null=True)

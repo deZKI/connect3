@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from apps.products.admin import OrderInlineAdmin
-from apps.users.models import UserExtended
+from apps.users.models import UserExtended, Participant
 
 
 @admin.action(description="Создать qrcode")
@@ -39,3 +39,8 @@ class UserExtendedAdmin(UserAdmin):
          ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+
+
+@admin.register(Participant)
+class ParticipantAdmin(admin.ModelAdmin):
+    pass

@@ -9,6 +9,7 @@ from drf_yasg import openapi
 from rest_framework import routers
 from rest_framework import permissions
 
+from apps.users.api.views import ParticipationListView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -20,8 +21,8 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 router = routers.DefaultRouter()
+router.register(r'participants', ParticipationListView, basename='participants')
 urlpatterns = [
-    path('api/', include(router.urls)),
 
     path('api/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -29,8 +30,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('api/users/', include('apps.users.urls')),
-
+    path('api/', include(router.urls)),
 ]
 
 if settings.DEBUG:

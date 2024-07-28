@@ -1,8 +1,10 @@
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.users.models import UserExtended
+from apps.users.models import UserExtended, Participant
 
-from apps.users.api.serializers import UserRegistrationSerializer, UserDetailWithBalanceSerializer, UserDetailsSerializer
+from apps.users.api.serializers import UserRegistrationSerializer, UserDetailWithBalanceSerializer, \
+    UserDetailsSerializer, ParticipantSerializer
 
 
 class UserRegistrationView(CreateAPIView):
@@ -20,3 +22,8 @@ class UserDetailView(RetrieveAPIView):
             return UserDetailWithBalanceSerializer
 
         return UserDetailsSerializer
+
+
+class ParticipationListView(ReadOnlyModelViewSet):
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantSerializer
