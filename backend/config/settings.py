@@ -13,8 +13,8 @@ TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['http://localhost:4200']
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:4200', 'https://connect3.ru']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'https://connect3.ru']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
