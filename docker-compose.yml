@@ -1,5 +1,3 @@
-version: '3.3'
-
 services:
   core:
     build: backend
@@ -33,7 +31,7 @@ services:
     build: ./nginx
     restart: always
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
