@@ -9,6 +9,7 @@ done
 echo "PostgreSQL started"
 
 # Выполнение миграций
+python manage.py migrate users
 python manage.py migrate --noinput
 
 # Запуск start_bott
