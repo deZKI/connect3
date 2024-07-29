@@ -3,7 +3,7 @@
 # Проверка на доступность базы данных перед выполнением миграций
 # Это особенно важно для продакшен сред, где база данных может запускаться независимо и не всегда доступна сразу
 echo "Waiting for PostgreSQL to start..."
-while ! nc -z db 5432; do
+while ! nc -z postgres_db 5432; do
   sleep 0.1
 done
 echo "PostgreSQL started"
