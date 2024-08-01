@@ -17,7 +17,11 @@ class UserExtendedAdmin(UserAdmin):
     """ Админка пользователя """
     actions = (generate_qrcode,)
 
-    list_display = ('username', 'balance', 'is_active', 'is_banned', 'is_payed')
+    list_display = ('username', 'balance', 'is_active', 'is_banned', 'is_payed', 'birth_date')
+    list_filter = ('is_active', 'is_banned', 'church', 'city', 'gender')
+    search_fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
+    sortable_by = ('birth_date', 'balance', )
+
     inlines = [OrderInlineAdmin]
     fieldsets = (
         (None, {'fields': ('username', 'password', 'tg_chat_id')}),
@@ -34,7 +38,8 @@ class UserExtendedAdmin(UserAdmin):
          ),
         (_("Дополнительная информация"), {
             'fields': (
-                'balance', 'qrcode', 'church', 'know_from'
+                ('balance', 'qrcode', 'know_from', 'phone_number',),
+                ('about_me', 'city', 'church', 'gender', 'birth_date')
             )},
          ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),

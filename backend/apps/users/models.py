@@ -10,12 +10,19 @@ from django.conf import settings
 class UserExtended(AbstractUser):
     """ Пользователь (расширенная модель) """
     tg_chat_id = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID', blank=True, null=True)
-    phone_number = models.CharField(max_length=50, unique=True, verbose_name='Telegram Phone Number', blank=True,
-                                    null=True)
     username = models.CharField(max_length=50, unique=True, verbose_name='Telegram Username')
-    qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='Qrcode пользователя ', blank=True, null=True)
+
+    phone_number = models.CharField(max_length=50, unique=True, verbose_name='Номер телефона', blank=True, null=True)
+    birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
+    gender = models.CharField(max_length=6, choices=[('male', 'Мужской'), ('female', 'Женский')], verbose_name='Пол',
+                              blank=True, null=True)
+    city = models.CharField(max_length=100, verbose_name='Город', blank=True, null=True)
     church = models.CharField(max_length=256, verbose_name='Название церкви', blank=True, null=True)
     know_from = models.CharField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
+    about_me = models.TextField(verbose_name='О себе', blank=True, null=True)
+
+    qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='QR-код пользователя', blank=True, null=True)
+
     is_payed = models.BooleanField(verbose_name='Оплачен', default=False)
     is_registered = models.BooleanField(verbose_name='Зарегистрирован', default=False)
     balance = models.PositiveIntegerField(default=1500, verbose_name='Баланс пользователя')
