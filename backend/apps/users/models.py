@@ -14,11 +14,11 @@ class UserExtended(AbstractUser):
 
     phone_number = models.CharField(max_length=50, unique=True, verbose_name='Номер телефона', blank=True, null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
-    gender = models.CharField(max_length=6, choices=[('male', 'Мужской'), ('female', 'Женский')], verbose_name='Пол',
+    gender = models.CharField(max_length=20, choices=[('male', 'Мужской'), ('female', 'Женский')], verbose_name='Пол',
                               blank=True, null=True)
     city = models.CharField(max_length=100, verbose_name='Город', blank=True, null=True)
     church = models.CharField(max_length=256, verbose_name='Название церкви', blank=True, null=True)
-    know_from = models.CharField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
+    know_from = models.TextField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
     about_me = models.TextField(verbose_name='О себе', blank=True, null=True)
 
     qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='QR-код пользователя', blank=True, null=True)

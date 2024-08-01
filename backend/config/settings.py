@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 SITE_URL = os.getenv('SITE_URL')
 TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+INVOICE_BOT_API_TOKEN = os.getenv('INVOICE_BOT_TOKEN')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ["*"]
