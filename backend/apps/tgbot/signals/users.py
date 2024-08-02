@@ -7,6 +7,8 @@ from apps.tgbot.bot.messages import send_is_payed_message
 
 @receiver(pre_save, sender=UserExtended)
 async def send_payment_confirmation(sender, instance, **kwargs):
+    if not instance.pk:  # Новый пользователь
+        return
     new_user = await UserExtended.objects.aget(pk=instance.pk)
     if instance.is_payed and not new_user.is_payed:
         try:
