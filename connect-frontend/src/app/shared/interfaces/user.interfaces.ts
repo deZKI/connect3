@@ -6,6 +6,15 @@ export interface Participant {
   photo: string
 }
 
+export interface Speakers {
+  id: number
+  name: string
+  surname: string
+  inspiration: string
+  photo: string
+}
+
+
 export interface User {
   id: number
   name: string
