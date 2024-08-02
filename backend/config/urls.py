@@ -9,7 +9,7 @@ from drf_yasg import openapi
 from rest_framework import routers
 from rest_framework import permissions
 
-from apps.users.api.views import ParticipationListView
+from apps.users.api.views import TeammateListView, UsersListView, SpeakersListView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -21,7 +21,9 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 router = routers.DefaultRouter()
-router.register(r'participants', ParticipationListView, basename='participants')
+router.register(r'teammates', TeammateListView, basename='teammates')
+router.register(r'users', UsersListView, basename='users')
+router.register(r'speakers', SpeakersListView, basename='speakers')
 urlpatterns = [
 
     path('api/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

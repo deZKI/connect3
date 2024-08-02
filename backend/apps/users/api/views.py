@@ -1,29 +1,36 @@
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.users.models import UserExtended, Participant
+from apps.users.models import UserExtended, Teammate, Speakers
 
-from apps.users.api.serializers import UserRegistrationSerializer, UserDetailWithBalanceSerializer, \
-    UserDetailsSerializer, ParticipantSerializer
-
-
-class UserRegistrationView(CreateAPIView):
-    queryset = UserExtended.objects.all()
-    serializer_class = UserRegistrationSerializer
+from apps.users.api.serializers import TeammateSerializer, UserSerializer, UserExtendedSerializer, SpeakersSerializer
 
 
-class UserDetailView(RetrieveAPIView):
-    queryset = UserExtended.objects.all()
+class UsersListView(ReadOnlyModelViewSet):
+    queryset = UserExtended.objects.filter(is_payed=True, is_banned=False)
+    serializer_class = UserSerializer
 
     def get_serializer_class(self):
-        user = self.request.user
-        if user.is_superuser or user == self.get_object():
-            # Only superuser of user himself can seed balance
-            return UserDetailWithBalanceSerializer
+        return UserExtendedSerializer
 
-        return UserDetailsSerializer
+    def retrieve(self, request, *args, **kwargs):
+        # Переопределяем метод retrieve для поиска по tg_chat_id
+        tg_chat_id = kwargs.get('pk')  # Используем параметр pk как tg_chat_id
+
+        # Пытаемся найти пользователя по tg_chat_id
+        user = get_object_or_404(UserExtended, tg_chat_id=tg_chat_id)
+
+        # Сериализуем данные пользователя и возвращаем ответ
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
 
 
-class ParticipationListView(ReadOnlyModelViewSet):
-    queryset = Participant.objects.all()
-    serializer_class = ParticipantSerializer
+class TeammateListView(ReadOnlyModelViewSet):
+    queryset = Teammate.objects.all()
+    serializer_class = TeammateSerializer
+
+
+class SpeakersListView(ReadOnlyModelViewSet):
+    queryset = Speakers.objects.all()
+    serializer_class = SpeakersSerializer

@@ -20,6 +20,7 @@ class UserExtended(AbstractUser):
     church = models.CharField(max_length=256, verbose_name='Название церкви', blank=True, null=True)
     know_from = models.TextField(max_length=256, verbose_name='Откуда узнал', blank=True, null=True)
     about_me = models.TextField(verbose_name='О себе', blank=True, null=True)
+    photo = models.ImageField(upload_to='users/photo/', verbose_name='Фото пользователя', blank=True, null=True)
 
     qrcode = models.ImageField(upload_to='qrcodes/', verbose_name='QR-код пользователя', blank=True, null=True)
 
@@ -41,14 +42,14 @@ class UserExtended(AbstractUser):
             box_size=10,
             border=4,
         )
-        qr.add_data(f'{settings.SITE_URL}/users/{self.pk}')
+        qr.add_data(f'{settings.SITE_URL}/users/{self.tg_chat_id}')
         qr.make(fit=True)
 
         img = qr.make_image(fill_color="black", back_color="white")
 
         buffer = BytesIO()
         img.save(buffer, format='PNG')
-        filename = f'qrcode_{self.pk}.png'
+        filename = f'qrcode_{self.tg_chat_id}.png'
         file_buffer = ContentFile(buffer.getvalue())
         self.qrcode.save(filename, file_buffer)
 
@@ -61,8 +62,25 @@ class UserExtended(AbstractUser):
         ordering = ["-id", ]
 
 
-class Participant(models.Model):
+class Teammate(models.Model):
     name = models.CharField(max_length=124)
     surname = models.CharField(max_length=124)
     inspiration = models.CharField(max_length=124)
-    photo = models.ImageField(upload_to='participant/', verbose_name='Фото участника', blank=True, null=True)
+    photo = models.ImageField(upload_to='teammate/', verbose_name='Фото команда', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Команда"
+        verbose_name_plural = "Команда"
+        ordering = ["-id", ]
+
+
+class Speakers(models.Model):
+    name = models.CharField(max_length=124)
+    surname = models.CharField(max_length=124)
+    inspiration = models.CharField(max_length=124)
+    photo = models.ImageField(upload_to='speakers/', verbose_name='Фото спикера', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Спикеры"
+        verbose_name_plural = "Спикеры"
+        ordering = ["-id", ]

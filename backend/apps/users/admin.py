@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from apps.products.admin import OrderInlineAdmin
-from apps.users.models import UserExtended, Participant
+from apps.users.models import UserExtended, Teammate, Speakers
 
 
 @admin.action(description="Создать qrcode")
@@ -20,14 +20,14 @@ class UserExtendedAdmin(UserAdmin):
     list_display = ('id', 'first_name', 'last_name', 'balance', 'is_active', 'is_banned', 'is_payed', 'birth_date')
     list_filter = ('is_active', 'is_banned', 'church', 'city', 'gender', 'is_payed',)
     search_fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
-    sortable_by = ('birth_date', 'balance', )
+    sortable_by = ('birth_date', 'balance',)
 
     inlines = [OrderInlineAdmin]
     fieldsets = (
         (None, {'fields': ('username', 'password', 'tg_chat_id')}),
         (_('Personal info'), {
             'fields': (
-                'first_name', 'last_name',
+                'first_name', 'last_name', 'photo'
             )}
          ),
         (_("Permissions"), {
@@ -46,6 +46,11 @@ class UserExtendedAdmin(UserAdmin):
     )
 
 
-@admin.register(Participant)
-class ParticipantAdmin(admin.ModelAdmin):
+@admin.register(Teammate)
+class TeammateAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Speakers)
+class SpeakersAdmin(admin.ModelAdmin):
     pass
