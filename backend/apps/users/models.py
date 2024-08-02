@@ -10,7 +10,7 @@ from django.conf import settings
 class UserExtended(AbstractUser):
     """ Пользователь (расширенная модель) """
     tg_chat_id = models.CharField(max_length=50, unique=True, verbose_name='Telegram ID', blank=True, null=True)
-    username = models.CharField(max_length=50, unique=True, verbose_name='Telegram Username')
+    username = models.CharField(max_length=50, unique=True, verbose_name='Telegram Username', blank=True, null=True)
 
     phone_number = models.CharField(max_length=50, unique=True, verbose_name='Номер телефона', blank=True, null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
@@ -51,6 +51,9 @@ class UserExtended(AbstractUser):
         filename = f'qrcode_{self.pk}.png'
         file_buffer = ContentFile(buffer.getvalue())
         self.qrcode.save(filename, file_buffer)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
 
     class Meta:
         verbose_name = "Пользователь"

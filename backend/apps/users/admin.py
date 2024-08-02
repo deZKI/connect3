@@ -17,8 +17,8 @@ class UserExtendedAdmin(UserAdmin):
     """ Админка пользователя """
     actions = (generate_qrcode,)
 
-    list_display = ('username', 'balance', 'is_active', 'is_banned', 'is_payed', 'birth_date')
-    list_filter = ('is_active', 'is_banned', 'church', 'city', 'gender')
+    list_display = ('id', 'first_name', 'last_name', 'balance', 'is_active', 'is_banned', 'is_payed', 'birth_date')
+    list_filter = ('is_active', 'is_banned', 'church', 'city', 'gender', 'is_payed',)
     search_fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
     sortable_by = ('birth_date', 'balance', )
 

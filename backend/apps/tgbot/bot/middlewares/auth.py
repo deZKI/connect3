@@ -19,14 +19,20 @@ class AuthMiddleware(BaseMiddleware):
                        data: dict[str, Any]) -> Any:
         tg_user = event.from_user if event.message_id else event.callback_query.from_user
         try:
-            user, created = await UserExtended.objects.aupdate_or_create(
-                username=tg_user.username,
+            user, created = await UserExtended.objects.aget_or_create(
+                username=tg_user.username if tg_user.username else None,
                 tg_chat_id=tg_user.id,
                 defaults={
                     'first_name': tg_user.first_name if tg_user.first_name else 'Неизвестно',
                     'last_name': tg_user.last_name if tg_user.last_name else 'Неизвестно',
                 }
             )
+
+            if not created:
+                # Обновляем поля, если пользователь уже существует
+                user.first_name = tg_user.first_name if tg_user.first_name else 'Неизвестно'
+                user.last_name = tg_user.last_name if tg_user.last_name else 'Неизвестно'
+                await user.asave()
         except IntegrityError:
             user = await UserExtended.objects.filter(Q(tg_chat_id=tg_user.id) | Q(username=tg_user.username)).afirst()
             user.tg_chat_id = tg_user.id
