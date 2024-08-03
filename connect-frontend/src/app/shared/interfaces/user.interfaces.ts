@@ -17,8 +17,8 @@ export interface Speakers {
 
 export interface User {
   id: number
-  name: string
-  surname: string
+  fist_name: string
+  last_name: string
   photo: string
 }
 

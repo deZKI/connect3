@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ParticipantCardComponent} from "../../components/participant-card/participant-card.component";
-import {Participant} from "../../shared/interfaces/user.interfaces";
+import {Participant, User} from "../../shared/interfaces/user.interfaces";
 import {NgForOf} from "@angular/common";
 import {UserService} from "../../services/user.service";
 import {take, tap} from "rxjs";
@@ -16,15 +16,15 @@ import {take, tap} from "rxjs";
   styleUrl: './participant.component.scss'
 })
 export class ParticipantComponent implements OnInit {
-  participants: Participant[] = []
+  users: User[] = []
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit() {
-    this.userService.getParticipants().pipe(
+    this.userService.getUsers().pipe(
       take(1),
-      tap(participants => this.participants = participants)
+      tap(users => this.users = users)
     ).subscribe()
   }
 }

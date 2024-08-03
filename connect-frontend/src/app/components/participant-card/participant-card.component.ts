@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Participant} from "../../shared/interfaces/user.interfaces";
+import {Participant, User} from "../../shared/interfaces/user.interfaces";
 
 @Component({
   selector: 'app-participant-card',
@@ -9,5 +9,8 @@ import {Participant} from "../../shared/interfaces/user.interfaces";
   styleUrl: './participant-card.component.scss'
 })
 export class ParticipantCardComponent {
-  @Input() participant!: Participant
+  @Input() name!: string
+  @Input() surname!: string
+  @Input() inspiration!: string
+  @Input() photo!: string
 }

@@ -3,7 +3,11 @@
   <div class="row">
     <div class="col-md-4" *ngFor="let participant of speakers">
       <app-participant-card
-        [participant]="participant">
+        [photo]="participant.photo"
+        [surname]="participant.surname"
+        [name]="participant.name"
+        [inspiration]="participant.inspiration"
+      >
       </app-participant-card>
     </div>
   </div>
